@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Haris | Video Editor, AI Video Creator and YouTube Automation</title>
+<meta name="description" content="Video editing, AI video production and end-to-end YouTube automation for creators and brands.">
+<meta name="theme-color" content="#0c0f1d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0f1d; --panel:#151a30; --panel2:#1c2244; --line:#2a3152;
+  --text:#eceef8; --muted:#9aa3c4; --cyan:#6ee7f2; --red:#ff6b6b; --violet:#8b7bff;
+  --head:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --wrap:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{color-scheme:dark;scroll-behavior:smooth;scroll-padding-top:76px}
+body{background:var(--bg);color:var(--text);font:400 17px/1.65 var(--body);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,svg{display:block;max-width:100%}
+.wrap{width:min(var(--wrap),100% - 40px);margin-inline:auto}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+
+/* header */
+.top{position:sticky;top:0;z-index:20;background:rgba(12,15,29,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{font:800 20px var(--head);display:flex;align-items:center;gap:10px}
+.rec{width:10px;height:10px;border-radius:50%;background:var(--red);animation:blink 2s steps(2,start) infinite}
+@keyframes blink{50%{opacity:.25}}
+.nav{display:flex;align-items:center;gap:26px;font-size:15px;color:var(--muted)}
+.nav a:hover{color:var(--text)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 24px;border-radius:999px;font:700 16px var(--body);border:1px solid transparent;cursor:pointer;transition:transform .15s,background .15s,border-color .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn-main{background:var(--cyan);color:#06222a}
+.btn-main:hover{background:#9af0f8}
+.btn-line{border-color:var(--line);color:var(--text);background:transparent}
+.btn-line:hover{border-color:var(--cyan)}
+.nav .btn{padding:9px 18px;font-size:15px;color:#06222a}
+
+/* hero */
+.hero{padding:84px 0 70px}
+.hero h1{font:800 clamp(40px,7vw,86px)/1.02 var(--head);letter-spacing:-.025em;max-width:15ch}
+.hero p.lead{margin-top:26px;font-size:clamp(18px,2.2vw,21px);color:var(--muted);max-width:56ch}
+.hero .cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+
+/* timeline */
+.tl-box{margin-top:64px}
+.tl{position:relative;display:grid;grid-template-columns:64px 1fr;gap:0 12px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;overflow:hidden}
+.labels,.lanes{display:grid;grid-template-rows:26px repeat(3,46px);gap:8px}
+.labels span{font-size:13px;color:var(--muted);display:flex;align-items:center}
+.lanes{position:relative;cursor:pointer;touch-action:pan-y}
+.ruler{position:relative;border-bottom:1px solid var(--line);font:500 12px/26px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted)}
+.ruler i{position:absolute;top:0;font-style:normal;transform:translateX(-50%)}
+.ruler i:first-child{transform:none}
+.ruler i:last-child{transform:translateX(-100%)}
+.lane{position:relative;background:rgba(255,255,255,.03);border-radius:8px}
+.clip{position:absolute;top:4px;bottom:4px;border-radius:6px;padding:0 10px;display:flex;align-items:center;font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v .clip{background:linear-gradient(180deg,#4a3fb8,#3a3190);border:1px solid #6a5fe0}
+.p .clip{background:#10333b;border:1px solid #1d6270;color:#bff4fa;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+.a .clip{inset:4px 0;padding:0;border-radius:6px;background:
+  repeating-linear-gradient(90deg,rgba(110,231,242,.65) 0 2px,transparent 2px 5px);
+  -webkit-mask:linear-gradient(0deg,transparent 0,#000 0,#000 100%);
+  opacity:.7}
+.a .clip.w1{mask-image:repeating-linear-gradient(90deg,#000 0 3px,rgba(0,0,0,.35) 3px 9px,#000 9px 11px,rgba(0,0,0,.6) 11px 16px)}
+.ph{position:absolute;top:0;bottom:0;left:calc(var(--p,0)*1%);width:2px;background:var(--cyan);box-shadow:0 0 12px rgba(110,231,242,.7);pointer-events:none;z-index:3}
+.ph::before{content:"";position:absolute;top:0;left:-6px;border:7px solid transparent;border-top:10px solid var(--cyan);border-bottom:0}
+.tl-note{margin-top:12px;font-size:14px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+#tc{font-family:ui-monospace,Menlo,monospace;color:var(--cyan)}
+
+/* sections */
+section{padding:92px 0}
+section+section{border-top:1px solid var(--line)}
+h2{font:800 clamp(30px,4.4vw,48px)/1.1 var(--head);letter-spacing:-.02em;max-width:20ch}
+.sub{color:var(--muted);margin-top:14px;max-width:54ch}
+
+/* services */
+.svc{margin-top:44px;border-top:1px solid var(--line)}
+.svc div{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px;padding:28px 0;border-bottom:1px solid var(--line)}
+.svc h3{font:700 clamp(22px,2.6vw,30px)/1.2 var(--head)}
+.svc p{color:var(--muted);max-width:52ch}
+
+/* work */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.thumb{position:relative;aspect-ratio:16/10;display:grid;place-items:end start;padding:16px;overflow:hidden}
+.thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(8,10,20,.75))}
+.thumb .len{position:relative;z-index:1;font:500 12px ui-monospace,Menlo,monospace;background:rgba(8,10,20,.7);padding:3px 8px;border-radius:6px}
+.thumb iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:4}
+.play{position:absolute;inset:0;margin:auto;width:58px;height:58px;border-radius:50%;border:0;background:var(--cyan);z-index:2;cursor:pointer;display:grid;place-items:center;transition:transform .15s}
+.play:hover{transform:scale(1.08)}
+.play::before{content:"";margin-left:4px;border:9px solid transparent;border-left:15px solid #06222a;border-right:0}
+.t1{background:radial-gradient(120% 90% at 20% 10%,#f4c430 0,#7a5a0a 38%,#14172b 75%)}
+.t2{background:radial-gradient(120% 90% at 80% 10%,#d46bff 0,#4c2a8f 40%,#14172b 78%)}
+.t3{background:radial-gradient(120% 90% at 50% 0,#3aa8ff 0,#1b4a8a 40%,#14172b 78%)}
+.card .body{padding:20px 22px 24px}
+.card h3{font:700 21px/1.25 var(--head)}
+.tag{display:inline-block;margin-top:8px;font-size:13px;color:var(--cyan);border:1px solid #1d6270;border-radius:999px;padding:2px 12px}
+.card p{margin-top:12px;color:var(--muted);font-size:15.5px}
+
+/* about */
+.about{display:grid;grid-template-columns:7fr 5fr;gap:56px;align-items:start}
+.about p{color:var(--muted);margin-top:18px;max-width:58ch}
+.facts{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px}
+.facts h3{font:700 20px var(--head);margin-bottom:14px}
+.pills{display:flex;flex-wrap:wrap;gap:10px}
+.pills span{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14.5px}
+
+/* process */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:44px;counter-reset:s;list-style:none}
+.steps li{counter-increment:s;border-top:2px solid var(--violet);padding-top:18px}
+.steps li::before{content:counter(s);font:800 34px var(--head);color:var(--violet)}
+.steps h3{font:700 20px var(--head);margin:6px 0 8px}
+.steps p{color:var(--muted);font-size:15.5px}
+
+/* contact */
+.contact{display:grid;grid-template-columns:5fr 6fr;gap:56px;align-items:start}
+.links{display:flex;flex-direction:column;gap:12px;margin-top:28px;align-items:flex-start}
+form{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px;display:grid;gap:16px}
+label{font-size:14.5px;color:var(--muted);display:grid;gap:6px}
+input,textarea{font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;width:100%}
+input:focus,textarea:focus{border-color:var(--cyan);outline:none}
+textarea{min-height:130px;resize:vertical}
+.hint{font-size:13.5px;color:var(--muted)}
+footer{padding:34px 0;border-top:1px solid var(--line);color:var(--muted);font-size:14.5px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media (max-width:900px){
+  .grid{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .about,.contact{grid-template-columns:1fr;gap:36px}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .nav a:not(.btn){display:none}
+  .hero{padding:52px 0 50px}
+  section{padding:64px 0}
+  .grid,.steps{grid-template-columns:1fr}
+  .svc div{grid-template-columns:1fr;gap:8px;padding:22px 0}
+  .tl{grid-template-columns:48px 1fr;padding:12px;gap:0 8px}
+  .clip{padding:0 6px;font-size:11px}
+  .btn{width:100%}
+  .links .btn{width:auto}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rec{animation:none}
+  .btn,.play{transition:none}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="rec" aria-hidden="true"></span>Haris</a>
+    <nav class="nav" aria-label="Main">
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#process">Process</a>
+      <a class="btn btn-main" href="#contact">Hire me</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<div class="hero">
+  <div class="wrap">
+    <h1>Videos that keep people watching.</h1>
+    <p class="lead">I edit, generate and automate video for creators and brands: Reels, Shorts, cinematic AI clips and full YouTube channels that run on a schedule.</p>
+    <div class="cta">
+      <a class="btn btn-main" href="#work">See my work</a>
+      <a class="btn btn-line" href="#contact" data-wa>Message on WhatsApp</a>
+    </div>
+
+    <div class="tl-box">
+      <div class="tl" id="tl" role="img" aria-label="Video editing timeline with video, audio and prompt tracks">
+        <div class="labels"><span></span><span>Video</span><span>Audio</span><span>Prompts</span></div>
+        <div class="lanes" id="lanes">
+          <div class="ruler" id="ruler"><i>0:00</i><i style="left:25%">0:02</i><i style="left:50%">0:04</i><i style="left:75%">0:06</i><i style="left:100%">0:08</i></div>
+          <div class="lane v">
+            <div class="clip" style="left:0;width:24%">Wide reveal</div>
+            <div class="clip" style="left:25%;width:25%">Dolly in</div>
+            <div class="clip" style="left:51%;width:23%">Orbit</div>
+            <div class="clip" style="left:75%;width:25%">Final shot</div>
+          </div>
+          <div class="lane a">
+            <div class="clip w1" style="left:0;width:100%"></div>
+          </div>
+          <div class="lane p">
+            <div class="clip" style="left:0;width:49%">scene_01.json</div>
+            <div class="clip" style="left:51%;width:49%">scene_02.json</div>
+          </div>
+          <div class="ph" id="ph" style="--p:0"></div>
+        </div>
+      </div>
+      <div class="tl-note"><span>Click the timeline to move the playhead.</span><span id="tc">0:00 / 0:08</span></div>
+    </div>
+  </div>
+</div>
+
+<section id="services">
+  <div class="wrap">
+    <h2>What I can make for you</h2>
+    <p class="sub">One person, from idea to upload. Pick one service or the whole pipeline.</p>
+    <div class="svc">
+      <div><h3>Video editing</h3><p>Reels, Shorts and long-form edits with tight pacing, captions, sound design and consistent color.</p></div>
+      <div><h3>AI video production</h3><p>Cinematic clips built from detailed prompts, with the same character, location and camera style across every scene.</p></div>
+      <div><h3>YouTube automation</h3><p>Faceless channels run end to end: topic research, script, voiceover, editing, thumbnail and upload.</p></div>
+      <div><h3>Thumbnails and scripts</h3><p>Titles, thumbnails and scripts written to earn the click and hold attention to the last second.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <h2>Selected work</h2>
+    <p class="sub">Press play to watch each project.</p>
+    <div class="grid">
+      <article class="card">
+        <div class="thumb t1" data-yt=""><span class="len">8 sec clips</span></div>
+        <div class="body"><h3>Supercar restoration series</h3><span class="tag">AI video</span><p>An abandoned supercar goes from dust and mud to a mirror-finish showroom reveal, shot by shot.</p></div>
+      </article>
+      <article class="card">
+        <div class="thumb t2" data-yt=""><span class="len">Story short</span></div>
+        <div class="body"><h3>Fantasy dragon short</h3><span class="tag">AI storytelling</span><p>A mother, a glowing egg and a village that learns to trust. A fixed lead character across every scene.</p></div>
+      </article>
+      <article class="card">
+        <div class="thumb t3" data-yt=""><span class="len">Pipeline</span></div>
+        <div class="body"><h3>Faceless channel system</h3><span class="tag">Automation</span><p>Script, voiceover, edit and upload as one repeatable workflow for channels that post on schedule.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about">
+    <div>
+      <h2>Hi, I’m Haris</h2>
+      <p>I make video for creators and small brands, whether it is edited footage, AI-generated scenes or a channel that publishes without me touching every step.</p>
+      <p>I care about three things: pacing that does not drag, visuals that stay consistent from the first clip to the last, and delivery on the day I promised.</p>
+    </div>
+    <aside class="facts">
+      <h3>Tools I work with</h3>
+      <div class="pills">
+        <span>CapCut</span><span>DaVinci Resolve</span><span>Premiere Pro</span><span>Veo</span><span>ChatGPT</span><span>Claude</span><span>ElevenLabs</span><span>Canva</span>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <h2>How a project runs</h2>
+    <ol class="steps">
+      <li><h3>Brief</h3><p>You tell me the goal, the audience and the length. I reply with a plan and a price.</p></li>
+      <li><h3>Script and shots</h3><p>I write the script and a shot list. You approve it before anything is made.</p></li>
+      <li><h3>Production</h3><p>I generate, edit and add sound. You get a draft to review.</p></li>
+      <li><h3>Delivery</h3><p>I apply your changes and send final files, or upload straight to your channel.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap contact">
+    <div>
+      <h2>Tell me about your video or channel</h2>
+      <p class="sub">The fastest way to reach me is WhatsApp. I usually reply the same day.</p>
+      <div class="links" id="links"></div>
+    </div>
+    <form id="form" novalidate>
+      <label>Your name<input id="fn" name="name" autocomplete="name" required></label>
+      <label>What do you need?<textarea id="fm" name="message" required placeholder="For example: 10 Shorts a month for a cooking channel"></textarea></label>
+      <button class="btn btn-main" type="submit">Send on WhatsApp</button>
+      <p class="hint" id="hint">This opens WhatsApp with your message ready to send.</p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Haris. All rights reserved.</span>
+    <span>Video editing, AI video and YouTube automation</span>
+  </div>
+</footer>
+
+<script>
+/* ===== EDIT THIS PART ===== */
+const CONFIG = {
+  whatsapp: "923000000000",        // country code + number, no + or spaces (Pakistan: 92 then number without 0)
+  email:    "yourname@gmail.com",
+  instagram:"",                    // full link, or leave empty
+  youtube:  "",                    // full link, or leave empty
+  tiktok:   ""                     // full link, or leave empty
+};
+/* To add a video to a project card: put the YouTube video ID in data-yt="" in the HTML above.
+   Example: https://www.youtube.com/watch?v=abc123XYZ  ->  data-yt="abc123XYZ" */
+/* ========================== */
+
+const waBase = "https://wa.me/" + CONFIG.whatsapp;
+document.querySelectorAll("[data-wa]").forEach(a => { a.href = waBase; a.target = "_blank"; a.rel = "noopener"; });
+
+const links = document.getElementById("links");
+function addLink(label, href, cls){
+  const a = document.createElement("a");
+  a.className = "btn " + cls; a.textContent = label; a.href = href;
+  if (href.startsWith("http")) { a.target = "_blank"; a.rel = "noopener"; }
+  links.appendChild(a);
+}
+addLink("WhatsApp", waBase, "btn-main");
+if (CONFIG.email) addLink(CONFIG.email, "mailto:" + CONFIG.email, "btn-line");
+if (CONFIG.instagram) addLink("Instagram", CONFIG.instagram, "btn-line");
+if (CONFIG.youtube) addLink("YouTube", CONFIG.youtube, "btn-line");
+if (CONFIG.tiktok) addLink("TikTok", CONFIG.tiktok, "btn-line");
+
+/* WhatsApp form */
+document.getElementById("form").addEventListener("submit", e => {
+  e.preventDefault();
+  const n = document.getElementById("fn").value.trim();
+  const m = document.getElementById("fm").value.trim();
+  const hint = document.getElementById("hint");
+  if (!n || !m) { hint.textContent = "Please add your name and a short message."; hint.style.color = "var(--red)"; return; }
+  hint.style.color = ""; hint.textContent = "Opening WhatsApp…";
+  window.open(waBase + "?text=" + encodeURIComponent("Hi, I’m " + n + ". " + m), "_blank", "noopener");
+});
+
+/* YouTube players */
+document.querySelectorAll(".thumb[data-yt]").forEach(t => {
+  const id = t.dataset.yt.trim();
+  if (!id) return;
+  const b = document.createElement("button");
+  b.className = "play"; b.setAttribute("aria-label", "Play video");
+  b.addEventListener("click", () => {
+    const f = document.createElement("iframe");
+    f.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0";
+    f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+    f.allowFullscreen = true; f.title = "Project video";
+    t.appendChild(f); b.remove();
+  });
+  t.appendChild(b);
+});
+
+/* Timeline */
+(function(){
+  const lanes = document.getElementById("lanes"), ph = document.getElementById("ph"), tc = document.getElementById("tc");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let raf = 0;
+  function set(p){
+    p = Math.max(0, Math.min(100, p));
+    ph.style.setProperty("--p", p);
+    const s = (p/100*8);
+    tc.textContent = "0:0" + Math.floor(s) + " / 0:08";
+  }
+  function play(to, ms){
+    cancelAnimationFrame(raf);
+    const from = parseFloat(ph.style.getPropertyValue("--p")) || 0, t0 = performance.now();
+    (function step(t){
+      const k = Math.min(1, (t - t0)/ms), e = 1 - Math.pow(1-k, 3);
+      set(from + (to-from)*e);
+      if (k < 1) raf = requestAnimationFrame(step);
+    })(t0);
+  }
+  lanes.addEventListener("click", e => {
+    const r = lanes.getBoundingClientRect();
+    const p = (e.clientX - r.left)/r.width*100;
+    reduce ? set(p) : play(p, 450);
+  });
+  reduce ? set(62) : play(62, 4200);
+})();
+</script>
+</body>
+</html>
